@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Google Drive link",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Submit a public Google Drive video link for processing"
+            }
+          }
+        ],
+        "send": {
+          "text": "/drive_link"
+        }
+      }
+    ]
+  }
+]
