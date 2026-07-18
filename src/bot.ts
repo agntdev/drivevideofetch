@@ -6,7 +6,30 @@ import { createBot, type BotContext } from "./toolkit/index.js";
 // bot grows. Durable domain data must NOT live here — use the toolkit's
 // persistent storage (see AGENTS.md).
 export interface Session {
-  // example: step?: "awaiting_amount";
+  /** Current conversation step for multi-step flows. */
+  step?: string;
+  /** Rate-limit window: requests made in the current minute. */
+  rateRequests?: number;
+  /** Timestamp of the last request (ms since epoch). */
+  lastRequestTime?: number;
+  /** Pending drive link URL waiting for validation. */
+  pendingUrl?: string;
+  /** Extracted file metadata from a validated Drive link. */
+  fileMeta?: {
+    fileId: string;
+    fileName: string;
+    sizeBytes: number;
+    mimeType: string;
+    thumbnailUrl?: string;
+    webViewLink?: string;
+  };
+  /** Admin settings (owner-only). */
+  adminSettings?: {
+    adminChatId?: number;
+    adminNotificationsEnabled?: boolean;
+    rateLimitPerMinute?: number;
+    urlTtlHours?: number;
+  };
 }
 
 export type Ctx = BotContext<Session>;
