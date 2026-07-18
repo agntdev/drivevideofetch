@@ -1,0 +1,70 @@
+[
+  {
+    "name": "owner can open admin settings",
+    "steps": [
+      {
+        "send": { "callback": "admin:menu" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "\u2699\ufe0f Admin settings\n\nNotifications: ON\nAdmin chat: not set\nRate limit: 10 req/min\nURL TTL: 24h"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "owner can toggle notifications",
+    "steps": [
+      {
+        "send": { "callback": "admin:menu" },
+        "expect": [{ "method": "editMessageText" }]
+      },
+      {
+        "send": { "callback": "admin:toggle:notifications" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Admin notifications turned OFF."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "owner can set rate limit",
+    "steps": [
+      {
+        "send": { "callback": "admin:ratelimit:20" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Rate limit set to 20 req/min."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "owner can set URL TTL",
+    "steps": [
+      {
+        "send": { "callback": "admin:ttl:48" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "URL TTL set to 48 hours."
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,19 +1,69 @@
 [
   {
-    "name": "Google Drive link",
+    "name": "tapping Submit link prompts for a Drive URL",
     "steps": [
       {
+        "send": { "callback": "drive:prompt" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Paste a public Google Drive video link and I'll handle the rest."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sending a non-Drive URL shows an error",
+    "steps": [
+      {
+        "send": { "callback": "drive:prompt" },
+        "expect": [{ "method": "editMessageText" }]
+      },
+      {
+        "send": { "text": "hello world" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Submit a public Google Drive video link for processing"
+              "text": "That doesn't look like a Google Drive link. Share a link like:\nhttps://drive.google.com/file/d/\u2026/view"
             }
           }
-        ],
-        "send": {
-          "text": "/drive_link"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sending a Drive link without API key shows config error",
+    "steps": [
+      {
+        "send": { "text": "https://drive.google.com/file/d/1aBcDeFgHiJkLmNoPqRsT/view" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Google Drive integration isn't configured yet. The bot admin needs to set up an API key."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "cancelling drive action resets state",
+    "steps": [
+      {
+        "send": { "callback": "drive:action:cancel" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Cancelled. Send another link or tap /start."
+            }
+          }
+        ]
       }
     ]
   }
